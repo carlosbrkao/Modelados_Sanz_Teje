@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Vivado v2017.4 (64-bit)
+# SW Build 2086221 on Fri Dec 15 20:55:39 MST 2017
+# IP Build 2085800 on Fri Dec 15 22:25:07 MST 2017
+# Start of session at: Mon Mar  9 11:37:18 2020
+# Process ID: 9980
+# Current directory: D:/UNIVERSIDAD/3/modelado/PRACTICAS/Modelados_Sanz_Teje/P1/Practica_1/Practica_1.runs/synth_1
+# Command line: vivado.exe -log cnt_display.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source cnt_display.tcl
+# Log file: D:/UNIVERSIDAD/3/modelado/PRACTICAS/Modelados_Sanz_Teje/P1/Practica_1/Practica_1.runs/synth_1/cnt_display.vds
+# Journal file: D:/UNIVERSIDAD/3/modelado/PRACTICAS/Modelados_Sanz_Teje/P1/Practica_1/Practica_1.runs/synth_1\vivado.jou
+#-----------------------------------------------------------
+source cnt_display.tcl -notrace
