@@ -17,7 +17,6 @@ architecture rtl of cnt_display is
 --cosas registro
 signal APTO     : std_logic;
 signal A     : std_logic;
-signal BCD_BUENO : std_logic_vector(15 downto 0);
 signal BCD_U : std_logic_vector(3 downto 0);
 signal BCD_D : std_logic_vector(3 downto 0);
 signal BCD_C : std_logic_vector(3 downto 0);
@@ -36,17 +35,19 @@ begin  -- rtl
   process(CLK,RST,BCD_OK)
     begin
     if RST = '1' then
-      BCD_BUENO <= (others => '0');
+      BCD_U <= (others => '0');
+      BCD_D <= (others => '0');
+      BCD_C <= (others => '0');
+      BCD_M <= (others => '0');
     elsif CLK'event and CLK = '1' then
-      APTO <= A and BCD_OK;
       A <= BCD_OK;
+      APTO <= (NOT A) and BCD_OK;
       if(APTO='1')then
-        BCD_BUENO <= BCD;
         --Troceamos BCD
-        BCD_U <= BCD_BUENO(3 downto 0);
-        BCD_D <= BCD_BUENO(7 downto 4);
-        BCD_C <= BCD_BUENO(11 downto 8);
-        BCD_M <= BCD_BUENO(15 downto 12);
+        BCD_U(3 downto 0) <= BCD(3 downto 0);
+        BCD_D(3 downto 0) <= BCD(7 downto 4);
+        BCD_C(3 downto 0) <= BCD(11 downto 8);
+        BCD_M(3 downto 0) <= BCD(15 downto 12);
       end if;
     end if;
   end process;
@@ -95,7 +96,7 @@ begin  -- rtl
             AND_30 <= "1011";
             DP <= '1';
         --millares
-        when "11" =>
+        when others =>
             S_multiplexor <= BCD_M;
             AND_30 <= "0111";
             DP <= '0';
