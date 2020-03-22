@@ -61,14 +61,12 @@ begin
             BCD_NUMERO <= "0001100110011001";
             wait until RELOJ = '0';
             BCD_OK_NUMERO <= '1';
-            wait for 10ns;
             wait until RELOJ = '0';
             BCD_OK_NUMERO <= '0';
             wait for 6 ms;
             BCD_NUMERO <= "0000000000000000";
             wait until RELOJ = '0';
             BCD_OK_NUMERO <= '1';
-            wait for 10ns;
             wait until RELOJ = '0';
             BCD_OK_NUMERO <= '0';
             wait for 6 ms;
