@@ -25,6 +25,17 @@ architecture sim of test_ap1_tb is
     signal AND_30_SALIDA_DISPLAY :  std_logic_vector(3 downto 0);
     signal DP_PUNTO     :  std_logic;
     signal SEG_AG_DISPLAY_SELEC :  std_logic_vector(6 downto 0);
+    
+    signal D_Display_Aux : std_logic_vector(3 downto 0);
+       
+        
+    signal BCD_U : std_logic_vector(3 downto 0);
+    signal BCD_D : std_logic_vector(3 downto 0);
+    signal BCD_C : std_logic_vector(3 downto 0);
+    signal BCD_M : std_logic_vector(3 downto 0);
+        
+    signal D_Display : std_logic_vector(15 downto 0);
+
 begin
 
     DUT: test_ap1
@@ -50,14 +61,74 @@ begin
         wait for 10ns;
         wait until RELOJ = '0';
         SW_OK_NUMERO <= '0';
-        wait for 4 ms;
+        wait for 6 ms;
         SW_NUMERO <= "0000000000000000";
         wait until RELOJ = '0';
         SW_OK_NUMERO <= '1';
         wait for 10ns;
         wait until RELOJ = '0';
         SW_OK_NUMERO <= '0';
-        wait for 4 ms;
+        wait for 6 ms;
         report "fin controlado d ela simulación" severity failure;
     end process;
+    
+        --SEGMENTOS A BIN-------------------------------------------------------------
+          process(SEG_AG_DISPLAY_SELEC,AND_30_SALIDA_DISPLAY)
+          Variable Display_Bin : std_logic_vector(3 downto 0);
+          begin
+            case SEG_AG_DISPLAY_SELEC is
+                when  "1000000" => 
+                    Display_Bin := "0000";--0
+                 when "1111001" =>
+                    Display_Bin := "0001";--1
+                 when "0100100" =>
+                    Display_Bin := "0010";--2
+                 when "0110000" =>
+                    Display_Bin := "0011";--3
+                 when "0011001" =>
+                    Display_Bin := "0100";--4
+                 when "0010010" =>
+                    Display_Bin := "0101";--5
+                 when "0000010" =>
+                    Display_Bin := "0110";--6
+                 when "1111000" =>
+                    Display_Bin := "0111";--7
+                 when "0000000" =>
+                    Display_Bin := "1000";--8
+                 when "0011000" =>
+                    Display_Bin := "1001";--9
+                 when others =>
+                    Display_Bin := "1111";--central
+                 end case;
+                
+                D_Display_Aux<=Display_bin;
+                 
+          end process;
+
+        process (D_Display_Aux,AND_30_SALIDA_DISPLAY)
+        begin
+            case AND_30_SALIDA_DISPLAY is
+                --unidades
+                when "1110" =>
+                    BCD_U <= D_Display_Aux;
+                --decenas
+                when "1101" =>
+                    BCD_D <= D_Display_Aux;
+                --centenas
+                when "1011" =>
+                    BCD_C <= D_Display_Aux;
+                --millares
+                when others =>
+                    BCD_M <= D_Display_Aux;
+            end case;
+        end process;
+        
+        process (BCD_U,BCD_D,BCD_C,BCD_M)
+                begin
+                D_Display(3 downto 0) <= BCD_U(3 downto 0);
+                D_Display(7 downto 4) <= BCD_D(3 downto 0);
+                D_Display(11 downto 8) <= BCD_C(3 downto 0);
+                D_Display(15 downto 12) <= BCD_M(3 downto 0);
+                    
+        end process;
 end sim;
