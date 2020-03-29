@@ -10,17 +10,17 @@ entity bin2bcd is
         BCD     : out std_logic_vector( 15 downto 0));
 end bin2bcd;
 architecture rtl of bin2bcd is
---SEÑALES CONTADOR BINARIO
+--SEÃ‘ALES CONTADOR BINARIO
 signal cnt_bin_out : unsigned(11 downto 0);
---SEÑALES CONTADOR BCD
+--SEÃ‘ALES CONTADOR BCD
 signal BCD_U : unsigned(3 downto 0);
 signal BCD_D : unsigned(3 downto 0);
 signal BCD_C : unsigned(3 downto 0);
 signal BCD_M : unsigned(3 downto 0);
---SEÑALES GENERADOR BCD_OK
+--SEÃ‘ALES GENERADOR BCD_OK
 signal Q : std_logic;
 signal aux : std_logic;
-------------------------------------------------------------------------CODIGO--------------------------------------
+------------------------------------------------------------------------CODIGO---------------------------------------
 begin
     --CONTADOR BINARIO DE 12bits DESCENDENTE CON CARGA PROGRAMABLE
     process (clk, rst, DATA_OK, DATA)
@@ -72,11 +72,11 @@ begin
     --REGISTRO DE 16bits
     process(clk,rst,cnt_bin_out,BCD_U,BCD_D,BCD_C,BCD_M)
     begin
-        --Si la señal de reset esta activa se pone todo a 0
+        --Si la seï¿½al de reset esta activa se pone todo a 0
         if rst = '1' then
           BCD <= (others => '0');
         elsif clk'event and clk = '1' then
-          --Si la señal cnt_bin_out es igual a 0 se combina las cifras en el BCD
+          --Si la seï¿½al cnt_bin_out es igual a 0 se combina las cifras en el BCD
           if(cnt_bin_out = 0)then
             --Troceamos BCD
             BCD(3 downto 0) <= std_logic_vector(BCD_U(3 downto 0));
