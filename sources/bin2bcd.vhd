@@ -30,7 +30,7 @@ begin
         elsif (clk'event and clk = '1')then
             if DATA_OK = '1' then
                 cnt_bin_out <= unsigned(DATA);
-            elsif  NOT cnt_bin_out = 0 then
+            elsif  NOT (cnt_bin_out = 0) then
                 cnt_bin_out <= cnt_bin_out - 1;
             end if;
         end if;
@@ -49,7 +49,7 @@ begin
                 BCD_D <= (others => '0');
                 BCD_C <= (others => '0');
                 BCD_M <= (others => '0');
-            elsif NOT cnt_bin_out = 0 then
+            elsif NOT (cnt_bin_out = 0) then
                 if BCD_U = 9 then
                     BCD_U <= (others => '0');
                     if BCD_D = 9 then
@@ -87,16 +87,19 @@ begin
         end if;
      end process;
      --GENERADOR DE BCD_OK
-     process(clk,rst,cnt_bin_out)
+     process(clk,rst,cnt_bin_out,DATA_OK)
      begin
         if rst = '1' then
             BCD_OK <= '0';
         elsif clk'event and clk = '1' then
-            if cnt_bin_out = 0 then
+            if DATA_OK = '1' then
+                Q <= '0';
+            elsif cnt_bin_out = 0 then
                 Q <= '1';
             end if;
             aux <= Q;
             BCD_OK <= (NOT aux) AND Q;
-     end process
+        end if;
+     end process;
 end rtl;
 
